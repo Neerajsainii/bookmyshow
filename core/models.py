@@ -1,16 +1,22 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 class User(AbstractUser):
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='core_user_set',  # Custom related name
+        related_name='core_user_set',
         blank=True,
         help_text='The groups this user belongs to.'
     )
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='core_user_permissions_set',  # Custom related name
+        related_name='core_user_permissions_set',
         blank=True,
         help_text='Specific permissions for this user.'
     )
@@ -19,6 +25,12 @@ class User(AbstractUser):
         ('manager', 'Event Manager'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    
+    # Ensure unique email
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.username
 
 class Event(models.Model):
     title = models.CharField(max_length=100)
