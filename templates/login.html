@@ -42,7 +42,28 @@
             </form>
         </div>
     </div>
+<script>
+    // Example login function
+async function login(username, password) {
+    const response = await fetch('http://127.0.0.1:8000/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+    });
 
+    if (response.ok) {
+        const data = await response.json();
+        // Store the token in local storage
+        localStorage.setItem('jwt_token', data.token); // Adjust according to your token structure
+        alert('Login successful!');
+    } else {
+        alert('Login failed: ' + (await response.json()).error);
+    }
+}
+
+</script>
 </body>
 
 </html>

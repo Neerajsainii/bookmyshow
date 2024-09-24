@@ -24,4 +24,11 @@ urlpatterns = [
     path('register', views.RegisterView.as_view(), name='register'),
     path('login_as', views.login_as,name='login_as'),
     path('login', views.LoginView.as_view(), name='login'),
-    path('logout', views.LogoutView.as_view(), name='logout'),]
+    path('logout', views.LogoutView.as_view(), name='logout'),
+    path('book-ticket/', views.book_ticket, name='book_ticket'),
+    path('view-bookings/', views.view_bookings, name='view_bookings'),
+    path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
+    path('createvent/', views.createvent),
+    path('create-event/', views.create_event, name='create_event'),
+    
+]
