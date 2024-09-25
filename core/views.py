@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from rest_framework import serializers, status
+from rest_framework import serializers, status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,7 +13,7 @@ from rest_framework.exceptions import NotFound
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 from .models import Event, Booking  # Adjust the import based on your project structure
-from .serializers import EventSerializer  # Assuming you have a serializer for Event
+from .serializers import EventSerializer, RegisterSerializer  # Assuming you have a serializer for Event
 import logging
 logger = logging.getLogger(__name__)
 
@@ -29,13 +29,10 @@ def createvent(request):
 User = get_user_model()  # Use the custom User model if one is set
 
 
-from rest_framework import generics
-from .serializers import RegisterSerializer
-from rest_framework.response import Response
-from rest_framework import status
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
